@@ -2,31 +2,33 @@ import type {Node} from 'react';
 
 import React from 'react';
 import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const FooterComponent: () => Node = () => {
-  return (
-    <View style={style.containerMain}>
-        <TouchableOpacity style={style.buttonCenter}>
-            {/* <Image style={style.imgFoot} source={ require('../assets/img/Icon_perfil_menu.png') } /> */}
-            <Text style={[style.textFoot, style.buttonCenterActive]} > Inicio </Text>
-        </TouchableOpacity>
+const FooterComponent = ({active, navigation}) => {
 
-        <TouchableOpacity style={style.buttonCenter}>
-            {/* <Image style={style.imgFoot} source={ require('../assets/img/Icon_perfil_menu.png') } /> */}
-            <Text style={style.textFoot} > Billetera </Text>
-        </TouchableOpacity>
+    return (
+        <View style={style.containerMain}>
+            <TouchableOpacity style={style.buttonCenter} onPress={() => {navigation.navigate("home")}}>
+                <MaterialIcons name="home" size={20} color={active == "home" ? "#deff3b" : ""} />
+                <Text style={[style.textFoot, active == "home" ? style.buttonCenterActive : {}]} > Inicio </Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity style={style.buttonCenter}>
-            {/* <Image style={style.imgFoot} source={ require('../assets/img/Icon_perfil_menu.png') } /> */}
-            <Text style={style.textFoot} > Recolecciones </Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={style.buttonCenter} onPress={() => {navigation.navigate("wallet")}}>
+                <MaterialIcons name="account-balance-wallet" size={20} color={active == "wallet" ? "#deff3b" : ""} />
+                <Text style={[style.textFoot, active == "wallet" ? style.buttonCenterActive : {}]} > Billetera </Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity style={style.buttonCenter}>
-            {/* <Image style={style.imgFoot} source={ require('../assets/img/Icon_perfil_menu.png') } /> */}
-            <Text style={style.textFoot} > Perfil </Text>
-        </TouchableOpacity>
-    </View>
-  )
+            <TouchableOpacity style={style.buttonCenter} onPress={() => {navigation.navigate("harvest")}}>
+                <MaterialIcons name="calendar-today" size={20} color={active == "harvest" ? "#deff3b" : ""} />
+                <Text style={[style.textFoot, active == "harvest" ? style.buttonCenterActive : {}]} > Recolecciones </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={style.buttonCenter} onPress={() => {navigation.navigate("profile")}}>
+                <MaterialIcons name="person-outline" size={20} color={active == "profile" ? "#deff3b" : ""} />
+                <Text style={[style.textFoot, active == "profile" ? style.buttonCenterActive : {}]} > Perfil </Text>
+            </TouchableOpacity>
+        </View>
+    )
 }
 
 export const SCREEN_HEIGHT = Dimensions.get("window").height;
