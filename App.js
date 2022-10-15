@@ -1,13 +1,16 @@
 import type {Node} from 'react';
 import React from 'react';
-import {Image, ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, useColorScheme, View} from 'react-native';
+import {Image, StatusBar, StyleSheet, Text, TouchableOpacity, useColorScheme, View} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import FooterComponent from './components/FooterComponent';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const image = { uri: "https://reactjs.org/logo-og.png" };
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const App: () => Node = () => {
+function HomeScreen({navigation }) {
+
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -22,7 +25,7 @@ const App: () => Node = () => {
       />
       
       <View>
-        <Text style={styles.textSubTitle}>Buenas tardes mutante, </Text>
+        <Text style={styles.textSubTitle}>Buenas tardes mutantes, </Text>
         <Text style={styles.textTitle}>Jeffrey Saavedra</Text>
       </View>
 
@@ -37,7 +40,7 @@ const App: () => Node = () => {
           </View>
 
           <View style={{ width: '29%', alignItems: 'flex-end' }}>
-            <Text style={[styles.text, styles.buttonPlay]}>-></Text>
+            <MaterialIcons size={40} color="#fff" name='play-circle-fill' />
           </View>
         </View>
 
@@ -58,15 +61,68 @@ const App: () => Node = () => {
         </View>
 
 
-        <TouchableOpacity style={styles.mainButton}>
-          <Text style={styles.mainButtonText}>Solicitar recolección</Text>
+        <TouchableOpacity style={styles.mainButton} onPress={() => navigation.navigate('harvest')}>
+          <Text style={styles.mainButtonText}> <MaterialIcons size={15} color="#000" name='refresh' /> Solicitar recolección <MaterialIcons size={15} color="#000" name='arrow-forward' /></Text>
         </TouchableOpacity>
 
       </View>
 
-
-      <FooterComponent />
+      <FooterComponent active={"home"} navigation={navigation} />
     </View>
+  );
+}
+
+function WalletScreen({navigation }) {
+
+  return(
+    <View style={styles.mainContainer}>
+      <Text>Billetera</Text>
+      <FooterComponent active={"wallet"} navigation={navigation} />
+    </View>
+  )
+
+}
+
+function HarvestScreen({navigation }) {
+
+  return(
+    <View style={styles.mainContainer}>
+      <Text>Colecciones</Text>
+      <FooterComponent active={"harvest"} navigation={navigation} />
+    </View>
+  )
+
+}
+
+
+function ProfileScreen({navigation }) {
+
+  return(
+    <View style={styles.mainContainer}>
+      <Text>Perfil</Text>
+      <FooterComponent active={"profile"} navigation={navigation} />
+    </View>
+  )
+
+}
+
+const Stack = createNativeStackNavigator();
+
+const App: () => Node = () => {
+  return (
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false
+          }}
+          initialRouteName="home"
+        >
+          <Stack.Screen name="home" component={HomeScreen} />
+          <Stack.Screen name="wallet" component={WalletScreen} />
+          <Stack.Screen name="harvest" component={HarvestScreen} />
+          <Stack.Screen name="profile" component={ProfileScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
   );
 };
 
@@ -147,6 +203,8 @@ const styles = StyleSheet.create({
   mainButton: {
     backgroundColor: '#deff3b',
     padding: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
     borderRadius: 20,
     width: '80%',
     position: 'absolute',
@@ -155,7 +213,7 @@ const styles = StyleSheet.create({
   mainButtonText: {
     color: '#000',
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   }
 });
 
